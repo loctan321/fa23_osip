@@ -1,4 +1,8 @@
+// ignore: avoid_web_libraries_in_flutter
+import 'dart:js';
+
 import 'package:flutter/material.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/widgets/input_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -21,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final username = _usernameController.text;
     final password = _passwordController.text;
 
-    final url = Uri.parse('API_ENDPOINT');
+    final url = Uri.parse('https://localhost:7053/swagger/index.html');
     final response = await http.post(
       url,
       body: {
@@ -33,6 +37,8 @@ class _LoginScreenState extends State<LoginScreen> {
     if (response.statusCode == 200) {
       // Login successful, handle response here
       _logger.i('Login successful');
+      Navigator.push(context as BuildContext,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()));
     } else {
       // Login failed, handle error here
       _logger.e('Login failed');
