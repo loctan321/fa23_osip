@@ -1,8 +1,6 @@
-// ignore: avoid_web_libraries_in_flutter
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/register.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/widgets/input_widget.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -76,6 +74,26 @@ class _LoginScreenState extends State<LoginScreen> {
                 backgroundColor: Colors.black,
                 padding: const EdgeInsets.symmetric(horizontal: 50)),
             child: const Text('Login'),
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Don't have an account yet?"),
+              const SizedBox(width: 5),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegisterScreen()));
+                },
+                child: const Text(
+                  "Register",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           )
         ]),
       ),
