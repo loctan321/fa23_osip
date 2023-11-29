@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -19,7 +19,7 @@ with SingleTickerProviderStateMixin{
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
     Future.delayed(const Duration(seconds: 2), (){
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginScreen(),
+        MaterialPageRoute(builder: (_) => const WelcomeScreen(),
       ),
       );
     }
@@ -47,23 +47,16 @@ with SingleTickerProviderStateMixin{
             end: Alignment.bottomLeft,
             )
         ),
-        child: const Column(
+        child:  Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          Icon(
-            Icons.attach_money_outlined,
-            size: 80,
-            color: Colors.white,
-            ), 
-            SizedBox(height: 20),
-             Text(
-              'OSP',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
-                fontSize: 30,
-              ),
-              ),
+          //  Icon(
+          //   Icons.attach_money_outlined,
+          //   size: 80,
+          //   color: Colors.white,
+          //   ),
+          Image.asset('assets/logo/logo.png'),
+           
 
           ],
         ),
