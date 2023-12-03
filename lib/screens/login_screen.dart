@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:optimizing_stock_investment_portfolio/navigator.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/home_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/home/home_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/register_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -206,28 +205,34 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            if (_formSignInKey.currentState!.validate() &&
-                                rememberPassword) {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //     content: Text('Processing Data'),
-                              //   ),
-                              // );
-                              _login();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (e) => HomeScreen(),
+                              ),
+                            );
+                            // if (_formSignInKey.currentState!.validate() &&
+                            //     rememberPassword) {
+                            //   // ScaffoldMessenger.of(context).showSnackBar(
+                            //   //   const SnackBar(
+                            //   //     content: Text('Processing Data'),
+                            //   //   ),
+                            //   // );
+                            //   _login();
 
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (e) =>  MainNavigation(),
-                              //   ),
-                              // );
-                            } else if (!rememberPassword) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text(
-                                        'Please agree to the processing ')),
-                              );
-                            }
+                            //   // Navigator.push(
+                            //   //   context,
+                            //   //   MaterialPageRoute(
+                            //   //     builder: (e) =>  MainNavigation(),
+                            //   //   ),
+                            //   // );
+                            // } else if (!rememberPassword) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     const SnackBar(
+                            //         content: Text(
+                            //             'Please agree to the processing ')),
+                            //   );
+                            // }
                           },
                           child: const Text('Login'),
                         ),
