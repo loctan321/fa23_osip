@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import '../model/stock.dart';
 import '../screens/stocK_detail_screen.dart';
 
-
 List<StockData> stockDataList = [];
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +14,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   StockData? stockData1;
   @override
   void initState() {
@@ -52,7 +50,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  
     //   if (stockData1 == null) {
     //   return const CircularProgressIndicator();
     // }
@@ -60,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Stock Overview'),
       ),
-       body: stockDataList.isEmpty
+      body: stockDataList.isEmpty
           ? const CircularProgressIndicator()
           : ListView.builder(
               itemCount: stockDataList.length,
@@ -69,7 +66,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 return ListTile(
                   title: Text(stockData.ticker!),
                   subtitle: Text('Open: ${stockData.open?.toStringAsFixed(2)}'),
-                  trailing: Text('Daily Profit: ${stockData.dailyProfit?.toStringAsFixed(2)}'),
+                  trailing: Text(
+                      'Daily Profit: ${stockData.dailyProfit?.toStringAsFixed(2)}'),
                   // onTap: () {
                   //   // Navigate to a detailed stock data page
                   //   Navigator.push(
@@ -82,14 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               },
             ),
-  
-        
-
     );
-
   }
-
-  
 }
 
 

@@ -1,10 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/forum_screen.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/home_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/wishlist_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/home/home_screen.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});
@@ -40,7 +40,7 @@ class __MainNavigatorStateState extends State<MainNavigation> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
       final   List<Widget> _screens = <Widget>[
-      HomeScreen(),
+      const HomeScreen(),
       const ForumScreen(),
       const  WishlistScreen(),
      ProfileScreen()
