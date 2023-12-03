@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/stock.dart';
+import '../screens/stocK_detail_screen.dart';
 
 
 List<StockData> stockDataList = [];
@@ -22,8 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchStockData();
   }
 
-   Future<void> _fetchStockData() async {
-    final response = await http.get(Uri.parse('https://10.0.2.2:7053/api/Stocks/'));
+   Future<void> _fetchStockData(  ) async {
+    final requestBody = {
+    'nameStock': '',
+    'dateRelease': '',
+  };
+    final response = await http.post(Uri.parse('https://10.0.2.2:7053/api/Stocks/ViewPost'),
+    headers: {'Content-Type': 'application/json'},
+    body: jsonEncode(requestBody),
+    );
 
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
@@ -38,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //https://10.0.2.2:7053/api/Stocks/
+
 
 
 
@@ -66,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   //   Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
-                  //       builder: (context) => StockDetailsScreen(stockData: stockData),
+                  //       builder: (context) => StockDetailScreen(stockData: stockData),
                   //     ),
                   //   );
                   // },
@@ -82,4 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   
 }
+
+
    

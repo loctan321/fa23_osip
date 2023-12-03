@@ -1,3 +1,4 @@
+
 class StockData {
   String? ticker;
   String? dtyyyymmdd;

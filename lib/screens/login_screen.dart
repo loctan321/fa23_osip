@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/custom_scaffort.dart';
 import '../theme/theme.dart';
 
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -19,6 +20,8 @@ class _LoginScreenState extends State<LoginScreen> {
 //
   bool _isSecurePassword = true;
 
+//
+String _token='';
 //
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -37,22 +40,27 @@ class _LoginScreenState extends State<LoginScreen> {
           prefs.setString('token', token);
         });
 
+         // Lưu token vào biến `_token`.
+      setState(() {
+        _token = token;
+      });
+        print('Login Thành Công');
         // Redirect to protected route or dashboard
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (e) => ProfileScreen(),
+            builder: (e) => MainNavigation(),
           ),
         );
       } else if (response.statusCode == 401) {
         // Invalid credentials (username or password)
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid username or password')),
+         const SnackBar(content: Text('Invalid username or password')),
         );
       } else {
         // Other error scenarios (e.g., server error, network issue)
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed. Please try again later')),
+        const  SnackBar(content: Text('Login failed. Please try again later')),
         );
       }
     } catch (error) {
@@ -208,11 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             if (_formSignInKey.currentState!.validate() &&
                                 rememberPassword) {
-                              // ScaffoldMessenger.of(context).showSnackBar(
-                              //   const SnackBar(
-                              //     content: Text('Processing Data'),
-                              //   ),
-                              // );
+                            
                               _login();
 
                               // Navigator.push(
@@ -328,3 +332,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+

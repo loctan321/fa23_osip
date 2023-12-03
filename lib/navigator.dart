@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/forum_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/wishlist_screen.dart';
 
@@ -13,8 +14,27 @@ class MainNavigation extends StatefulWidget {
 }
 
 class __MainNavigatorStateState extends State<MainNavigation> {
+
+  String _token = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Kiểm tra xem token có tồn tại hay không.
+    if (_token.isNotEmpty) {
+      // Hiển thị thanh bottom bar.
+      MainNavigation();
+    } else {
+      // Hiển thị màn hình login.
+      LoginScreen();
+    }
+  }
+
+
 // Current Index var
-int  _selectedIndex1 =0 ;
+
+
 
  int _selectedIndex = 0;
   static const TextStyle optionStyle =
@@ -35,9 +55,7 @@ int  _selectedIndex1 =0 ;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('BottomNavigationBar Sample'),
-      ),
+      
       body: Center(
         child: _screens.elementAt(_selectedIndex),
       ),
