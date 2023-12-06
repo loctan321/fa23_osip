@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:optimizing_stock_investment_portfolio/navigator.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home/home_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/register_screen.dart';
@@ -222,14 +223,14 @@ String _token='';
                               //     content: Text('Processing Data'),
                               //   ),
                               // );
-                              _login();
+                              // _login();
 
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (e) =>  MainNavigation(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (e) =>  MainNavigation(),
+                                ),
+                              );
                             } else if (!rememberPassword) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
