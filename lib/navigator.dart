@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/forum_screen.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/wishlist_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home/home_screen.dart';
@@ -14,7 +13,6 @@ class MainNavigation extends StatefulWidget {
 }
 
 class __MainNavigatorStateState extends State<MainNavigation> {
-
   String _token = '';
 
   @override
@@ -31,19 +29,16 @@ class __MainNavigatorStateState extends State<MainNavigation> {
     }
   }
 
-
 // Current Index var
 
-
-
- int _selectedIndex = 0;
+  int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-      final   List<Widget> _screens = <Widget>[
-      const HomeScreen(),
-      const ForumScreen(),
-      const  WishlistScreen(),
-     ProfileScreen()
+  final List<Widget> _screens = <Widget>[
+    const HomeScreen(),
+    const ForumScreen(),
+    const WishlistScreen(),
+    ProfileScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -55,7 +50,6 @@ class __MainNavigatorStateState extends State<MainNavigation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: Center(
         child: _screens.elementAt(_selectedIndex),
       ),
@@ -85,4 +79,4 @@ class __MainNavigatorStateState extends State<MainNavigation> {
       ),
     );
   }
-  }
+}

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/register_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/custom_scaffort.dart';
 import 'package:optimizing_stock_investment_portfolio/theme/theme.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/welcome_buttom.dart';
-
-
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -54,7 +52,7 @@ class WelcomeScreen extends StatelessWidget {
                   const Expanded(
                     child: WelcomeButton(
                       buttonText: 'Sign in',
-                      onTap:  LoginScreen(),
+                      onTap: LoginScreen(),
                       color: Colors.transparent,
                       textColor: Colors.white,
                     ),

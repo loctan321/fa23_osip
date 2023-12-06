@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:optimizing_stock_investment_portfolio/widgets/loading.dart';
 
 import 'detail_stock_bloc.dart';
 import 'detail_stock_state.dart';
@@ -25,15 +27,14 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = DetailStockBloc()..getData();
+    bloc = DetailStockBloc()
+      ..getData(ticker: widget.params.ticker, date: widget.params.date);
   }
 
   List<Color> gradientColors = [
     Colors.cyan,
     Colors.blue,
   ];
-
-  bool showAvg = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,51 +44,33 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('AAA'),
+              title: Text(widget.params.ticker),
             ),
-            body: Column(
-              children: [
-                spaceH40,
-                Stack(
-                  children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: 1.70,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          right: 18,
-                          left: 12,
-                          top: 24,
-                          bottom: 12,
-                        ),
-                        child: LineChart(
-                          showAvg ? avgData() : mainData(),
+            body: state.isLoading
+                ? const Loading()
+                : state.dataList.isEmpty
+                    ? const Empty()
+                    : SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 1,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: 16.w,
+                                  left: 16.w,
+                                  top: 20.h,
+                                  bottom: 72.h,
+                                ),
+                                child: LineChart(
+                                  mainData(),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 60,
-                      height: 34,
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            showAvg = !showAvg;
-                          });
-                        },
-                        child: Text(
-                          'avg',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: showAvg
-                                ? Colors.black.withOpacity(0.5)
-                                : Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
           );
         },
       ),
@@ -97,45 +80,44 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
   Widget bottomTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 16,
+      fontSize: 14,
     );
-    Widget text;
-    switch (value.toInt()) {
-      case 2:
-        text = const Text('MAR', style: style);
-        break;
-      case 5:
-        text = const Text('JUN', style: style);
-        break;
-      case 8:
-        text = const Text('SEP', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
-
+    final date =
+        DateTime.parse('${bloc.state.dataList[value.toInt()].dtyyyymmdd}');
     return SideTitleWidget(
       axisSide: meta.axisSide,
-      child: text,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(date.day.toString(), style: style),
+          Text(date.month.toString(), style: style),
+          Text(date.year.toString().substring(2), style: style),
+        ],
+      ),
     );
   }
 
   Widget leftTitleWidgets(double value, TitleMeta meta) {
     const style = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 15,
+      fontSize: 14,
     );
     String text;
     switch (value.toInt()) {
-      case 1:
-        text = '10K';
+      case -10:
+        text = '-10';
         break;
-      case 3:
-        text = '30k';
+      case -5:
+        text = '-5';
+        break;
+      case -0:
+        text = '0';
         break;
       case 5:
-        text = '50k';
+        text = '5';
+        break;
+      case 10:
+        text = '10';
         break;
       default:
         return Container();
@@ -146,24 +128,7 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
 
   LineChartData mainData() {
     return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawVerticalLine: true,
-        horizontalInterval: 1,
-        verticalInterval: 1,
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Colors.red,
-            strokeWidth: 1,
-          );
-        },
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Colors.red,
-            strokeWidth: 1,
-          );
-        },
-      ),
+      gridData: const FlGridData(show: false),
       titlesData: FlTitlesData(
         show: true,
         rightTitles: const AxisTitles(
@@ -175,7 +140,7 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: 30,
+            reservedSize: 80,
             interval: 1,
             getTitlesWidget: bottomTitleWidgets,
           ),
@@ -189,26 +154,21 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
           ),
         ),
       ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
+      borderData: FlBorderData(show: false),
       minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
+      maxX: 20,
+      minY: -10,
+      maxY: 10,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            // Chỗ đổ data
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
-          ],
+          spots: bloc.state.dataList
+              .mapIndexed(
+                (index, element) => FlSpot(
+                  double.parse(index.toString()),
+                  element.dailyProfit ?? 0,
+                ),
+              )
+              .toList(),
           isCurved: true,
           gradient: LinearGradient(
             colors: gradientColors,
@@ -224,103 +184,6 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
               colors: gradientColors
                   .map((color) => color.withOpacity(0.3))
                   .toList(),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  LineChartData avgData() {
-    return LineChartData(
-      lineTouchData: const LineTouchData(enabled: false),
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        verticalInterval: 1,
-        horizontalInterval: 1,
-        getDrawingVerticalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-        getDrawingHorizontalLine: (value) {
-          return const FlLine(
-            color: Color(0xff37434d),
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            reservedSize: 30,
-            getTitlesWidget: bottomTitleWidgets,
-            interval: 1,
-          ),
-        ),
-        leftTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitleWidgets,
-            reservedSize: 42,
-            interval: 1,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: true,
-        border: Border.all(color: const Color(0xff37434d)),
-      ),
-      minX: 0,
-      maxX: 11,
-      minY: 0,
-      maxY: 6,
-      lineBarsData: [
-        LineChartBarData(
-          spots: const [
-            FlSpot(0, 3.44),
-            FlSpot(2.6, 3.44),
-            FlSpot(4.9, 3.44),
-            FlSpot(6.8, 3.44),
-            FlSpot(8, 3.44),
-            FlSpot(9.5, 3.44),
-            FlSpot(11, 3.44),
-          ],
-          isCurved: true,
-          gradient: LinearGradient(
-            colors: [
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-              ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                  .lerp(0.2)!,
-            ],
-          ),
-          barWidth: 5,
-          isStrokeCapRound: true,
-          dotData: const FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: true,
-            gradient: LinearGradient(
-              colors: [
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-                ColorTween(begin: gradientColors[0], end: gradientColors[1])
-                    .lerp(0.2)!
-                    .withOpacity(0.1),
-              ],
             ),
           ),
         ),

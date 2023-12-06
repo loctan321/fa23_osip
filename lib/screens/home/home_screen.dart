@@ -5,7 +5,9 @@ import 'package:optimizing_stock_investment_portfolio/helper/commons.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/date_time.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
+import 'package:optimizing_stock_investment_portfolio/repository/stocks/models/view_post_stock/view_post_stock_response.dart';
 import 'package:optimizing_stock_investment_portfolio/resources/routes.dart';
+import 'package:optimizing_stock_investment_portfolio/widgets/loading.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/search_bar.dart';
 
 import 'detail/models/detail_stock_params.dart';
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    bloc = HomeBloc()..getData();
+    bloc = HomeBloc()..getData('');
   }
 
   @override
@@ -40,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: AppSearchBar(
                 hintText: 'Search...',
                 onChanged: (keyword) {
-                  //bloc.onSearch(keyword);
+                  bloc.getData(keyword);
                 },
               ),
               actions: [
@@ -87,29 +89,34 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            body: ListView.separated(
-              padding: EdgeInsets.only(
-                  right: 16.w, left: 16.w, top: 16.w, bottom: 72.h),
-              physics: const ClampingScrollPhysics(),
-              itemBuilder: (context, index) => _item(
-                context,
-                state.stockDataList[index],
-              ),
-              separatorBuilder: (context, index) => const Divider(),
-              itemCount: state.stockDataList.length,
-            ),
+            body: state.isLoading
+                ? const Loading()
+                : state.stockDataList.isEmpty
+                    ? const Empty()
+                    : ListView.separated(
+                        padding: EdgeInsets.only(
+                            right: 16.w, left: 16.w, top: 16.w, bottom: 72.h),
+                        physics: const ClampingScrollPhysics(),
+                        itemBuilder: (context, index) => _item(
+                          context,
+                          state.stockDataList[index],
+                        ),
+                        separatorBuilder: (context, index) => const Divider(),
+                        itemCount: state.stockDataList.length,
+                      ),
           );
         },
       ),
     );
   }
 
-  Widget _item(BuildContext context, StockData data) {
+  Widget _item(BuildContext context, ViewPostStockResponse data) {
     return InkWell(
       onTap: () async {
         routeService.pushNamed(Routes.detailStock,
             arguments: DetailStockParams(
-              id: '',
+              ticker: data.ticker ?? '',
+              date: data.dtyyyymmdd ?? '',
               onReload: () {
                 //
               },
@@ -123,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Expanded(
                 child: Text(
-                  data.stockId,
+                  data.ticker ?? '',
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -133,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               spaceW4,
               Text(
-                data.date.format(pattern: dd_mm_yyyy),
+                data.dtyyyymmdd ?? '',
                 style: context.textTheme.bodyMedium,
               ),
             ],
