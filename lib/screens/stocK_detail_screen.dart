@@ -13,7 +13,7 @@
 // }
 
 // class _StockDetailState extends State<StockDetailScreen> {
-  
+
 //   @override
 //   Widget build(BuildContext context) {
 //    @override
@@ -73,5 +73,5 @@
 //       ),
 //     );
 //   }
-  
+
 // }

@@ -21,14 +21,15 @@ class _HomeScreenState extends State<HomeScreen> {
     _fetchStockData();
   }
 
-   Future<void> _fetchStockData(  ) async {
+  Future<void> _fetchStockData() async {
     final requestBody = {
-    'nameStock': '',
-    'dateRelease': '',
-  };
-    final response = await http.post(Uri.parse('https://10.0.2.2:7053/api/Stocks/ViewPost'),
-    headers: {'Content-Type': 'application/json'},
-    body: jsonEncode(requestBody),
+      'nameStock': '',
+      'dateRelease': '',
+    };
+    final response = await http.post(
+      Uri.parse('https://10.0.2.2:7053/api/Stocks/ViewPost'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(requestBody),
     );
 
     if (response.statusCode == 200) {
@@ -44,9 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //https://10.0.2.2:7053/api/Stocks/
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +81,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-   

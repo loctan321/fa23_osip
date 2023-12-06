@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class SendOtpService {
   Future<bool> sendOtp(String email) async {
-     //https://10.0.2.2:7053/api/Stocks/
+    //https://10.0.2.2:7053/api/Stocks/
     final url = 'https://10.0.2.2:7053/api/Email/SendOtp';
     final data = {'toEmail': email};
 

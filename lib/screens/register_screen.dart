@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/login_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 
 import '../theme/theme.dart';
 import '../widgets/custom_scaffort.dart';

@@ -1,4 +1,3 @@
-
 class StockData {
   String? ticker;
   String? dtyyyymmdd;
@@ -23,7 +22,6 @@ class StockData {
       this.standardDeviation,
       this.listChart});
 
-  
   StockData.fromJson(Map<String, dynamic> json) {
     ticker = json['ticker'];
     dtyyyymmdd = json['dtyyyymmdd'];
