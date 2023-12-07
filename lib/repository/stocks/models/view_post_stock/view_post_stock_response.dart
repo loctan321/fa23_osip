@@ -1,8 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
 part 'view_post_stock_response.g.dart';
 
 @JsonSerializable()
+@CopyWith()
 class ViewPostStockResponse {
   String? ticker;
   String? dtyyyymmdd;
@@ -14,6 +16,7 @@ class ViewPostStockResponse {
   double? dailyProfit;
   double? standardDeviation;
   double? sharpeRatio;
+  bool isCheck;
 
   ViewPostStockResponse({
     this.ticker,
@@ -26,6 +29,7 @@ class ViewPostStockResponse {
     this.dailyProfit,
     this.standardDeviation,
     this.sharpeRatio,
+    this.isCheck = false,
   });
 
   factory ViewPostStockResponse.fromJson(Map<String, dynamic> json) {

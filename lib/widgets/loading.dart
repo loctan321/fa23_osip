@@ -17,7 +17,7 @@ class Empty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Trống',
+        'Empty',
         style: context.textTheme.titleMedium,
       ),
     );

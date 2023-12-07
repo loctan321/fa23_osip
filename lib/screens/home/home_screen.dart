@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/commons.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
-import 'package:optimizing_stock_investment_portfolio/helper/date_time.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/stocks/models/view_post_stock/view_post_stock_response.dart';
 import 'package:optimizing_stock_investment_portfolio/resources/routes.dart';
@@ -13,7 +12,7 @@ import 'package:optimizing_stock_investment_portfolio/widgets/search_bar.dart';
 import 'detail/models/detail_stock_params.dart';
 import 'home_bloc.dart';
 import 'home_state.dart';
-import 'models/stock_data.dart';
+import 'quadratic/models/quadratic_stock_select_params.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -53,7 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       IconButton(
                         icon: const Icon(Icons.search),
                         onPressed: () {
-                          //
+                          routeService.pushNamed(Routes.quadraticStockSelect,
+                              arguments: QuadraticStockSelectParams(
+                                onSelectChanged: (p0) {},
+                                onUnCheck: (ticker) =>
+                                    bloc.onAddList(ticker, false),
+                                onUnCheckAllList: () => bloc.onUnCheckAllList(),
+                                listStockSelect: state.addList,
+                              ));
                         },
                       ),
                       BlocSelector<HomeBloc, HomeState, int>(
@@ -178,18 +184,44 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Draw daily profit',
                 backgroundColor: context.appColor.colorOrange,
                 onTap: () {
-                  bloc.onAddList(data);
+                  //
                 },
               ),
-              spaceW8,
+              spaceW12,
               _itemButton(
                 context,
                 title: 'Add favorite',
                 backgroundColor: context.appColor.colorBlue,
                 onTap: () {
-                  bloc.onAddList(data);
+                  //
                 },
               ),
+              InkWell(
+                onTap: () {
+                  bloc.onAddList(data.ticker, !data.isCheck);
+                },
+                child: Row(
+                  children: [
+                    spaceW12,
+                    Container(
+                      height: 28,
+                      width: 28,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.rectangle,
+                        color: data.isCheck
+                            ? context.appColor.colorBlue
+                            : context.appColor.colorGrey,
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
+                      child: Icon(
+                        Icons.search,
+                        size: 20,
+                        color: context.appColor.colorWhite,
+                      ),
+                    )
+                  ],
+                ),
+              )
             ],
           )
         ],
@@ -231,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return InkWell(
       onTap: onTap,
       child: Container(
+        height: 28,
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
         decoration: BoxDecoration(
           color: backgroundColor,

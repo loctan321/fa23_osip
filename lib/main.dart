@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimizing_stock_investment_portfolio/resources/routes.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home/detail/detail_stock_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home/detail/models/detail_stock_params.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/home/quadratic/models/quadratic_stock_select_params.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/home/quadratic/quadratic_stock_select_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/splash_screen.dart';
 import 'dart:io';
 
@@ -69,6 +71,16 @@ class MyApp extends StatelessWidget {
           settings: const RouteSettings(name: Routes.detailStock),
           builder: (_) => DetailStockScreen(
             params: settings.arguments! as DetailStockParams,
+          ),
+        );
+      case Routes.quadraticStockSelect:
+        assert(
+          settings.arguments != null && settings.arguments is QuadraticStockSelectParams,
+        );
+        return MaterialPageRoute(
+          settings: const RouteSettings(name: Routes.quadraticStockSelect),
+          builder: (_) => QuadraticStockSelectScreen(
+            params: settings.arguments! as QuadraticStockSelectParams,
           ),
         );
 

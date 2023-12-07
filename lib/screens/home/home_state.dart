@@ -9,7 +9,7 @@ class HomeState {
   final String nameSearch;
   final String dateSearch;
   final List<ViewPostStockResponse> stockDataList;
-  final List<ViewPostStockResponse> addList;
+  final List<String> addList;
 
   const HomeState({
     this.isLoading = false,

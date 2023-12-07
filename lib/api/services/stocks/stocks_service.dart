@@ -25,4 +25,16 @@ class StocksService extends BaseService {
     );
     return response;
   }
+
+  Future<Response> getQuadraticStockSelect({
+    required List<String> list,
+    required bool mathWithDailyOrMonth,
+  }) async {
+    final response = await post(
+      StocksApi.getQuadraticStockSelect.replaceAll(
+          RegExp('{mathWithDailyOrMonth}'), mathWithDailyOrMonth.toString()),
+      // data: [];
+    );
+    return response;
+  }
 }

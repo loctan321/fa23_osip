@@ -31,11 +31,38 @@ class HomeBloc extends Cubit<HomeState> {
     }
   }
 
-  onAddList(ViewPostStockResponse data) {
-    final addList = List<ViewPostStockResponse>.from(state.addList);
-    addList.add(data);
+  onAddList(String? ticker, bool isCheck) {
+    if (ticker != null) {
+      final stockDataList =
+          List<ViewPostStockResponse>.from(state.stockDataList);
+
+      final element = stockDataList.firstWhere((e) => e.ticker == ticker);
+
+      final addList = List<String>.from(state.addList);
+
+      if (isCheck) {
+        element.isCheck = true;
+        addList.add(ticker);
+      } else {
+        element.isCheck = false;
+        addList.removeWhere((element) => element == ticker);
+      }
+
+      emit(state.copyWith(
+        addList: addList,
+        stockDataList: stockDataList,
+      ));
+    }
+  }
+
+  onUnCheckAllList() {
+    final stockDataList = List<ViewPostStockResponse>.from(state.stockDataList);
+
+    final data = stockDataList.map((e) => e.copyWith(isCheck: false)).toList();
+
     emit(state.copyWith(
-      addList: addList,
+      addList: [],
+      stockDataList: data,
     ));
   }
 }
