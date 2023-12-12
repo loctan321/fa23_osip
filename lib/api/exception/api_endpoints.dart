@@ -1,8 +1,9 @@
 const baseUrl =
-    "https://9aaa-2402-800-6370-5623-99f8-d764-e91f-23db.ngrok-free.app/";
+    "https://a9ec-2402-800-6370-5623-693a-c6d9-2b1f-d8a5.ngrok-free.app/";
 
 class UsersApi {
   static const login = "/Users/Login";
+  static const register ="/Users/Register";
 }
 
 class StocksApi {
