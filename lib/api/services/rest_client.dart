@@ -7,7 +7,7 @@ typedef ApiErrorCallback = Function(
     DioError e, ErrorInterceptorHandler handler);
 
 class RestClient {
-  static const kTimeout = 20000;
+  static const kTimeout = 90000;
   static const kEnableLog = kDebugMode;
   static const kAccessToken = 'access_token';
   static const kDeviceId = "x-device-id";

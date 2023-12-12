@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/stocks/stocks_repository.dart';
 
@@ -19,5 +20,54 @@ class QuadraticStockSelectBloc extends Cubit<QuadraticStockSelectState> {
 
   onUnCheckAllList() {
     emit(state.copyWith(listStockSelect: []));
+  }
+
+  getStockSuggestList(int quantity) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+
+      final result = await _stocksRepository.getStockSuggestList(
+        quantity: quantity,
+      );
+
+      final listStockNew = result.map((e) => e.ticker ?? '').toList();
+
+      final listStockSelect = List<String>.from(state.listStockSelect);
+
+      final filterList = listStockNew
+          .where((itemA) => !listStockSelect.any((itemB) => itemB == itemA))
+          .toList();
+
+      emit(state.copyWith(
+        listStockSelect: [...listStockSelect, ...filterList],
+        isLoading: false,
+      ));
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+  }
+
+  onSubmit() async {
+    try {
+      emit(state.copyWith(
+        isLoading: true,
+        dataList: null,
+      ));
+
+      final result = await _stocksRepository.getQuadraticStockSelect(
+        list: state.listStockSelect,
+      );
+
+      emit(state.copyWith(
+        dataList: result,
+        isLoading: false,
+      ));
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
   }
 }

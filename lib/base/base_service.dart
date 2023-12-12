@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:logger/logger.dart';
 import 'package:optimizing_stock_investment_portfolio/api/exception/api_exception.dart';
@@ -15,9 +17,11 @@ abstract class BaseService {
 
   Future<dynamic> post(String path,
       {Map<String, dynamic>? data,
+      List<String>? dataList,
       ignoreResultCode = false,
       String? dataKey}) async {
-    final response = await RestClient.dio.post(path, data: data);
+    final response = await RestClient.dio
+        .post(path, data: dataList != null ? jsonEncode(dataList) : data);
     _logger.i('path: $path \ndata: $data\nresponse: $response');
     return _handleResponse(response);
   }

@@ -33,7 +33,16 @@ class StocksService extends BaseService {
     final response = await post(
       StocksApi.getQuadraticStockSelect.replaceAll(
           RegExp('{mathWithDailyOrMonth}'), mathWithDailyOrMonth.toString()),
-      // data: [];
+      dataList: list,
+    );
+    return response;
+  }
+
+  Future<Response> getStockSuggestList({
+    required String quantity,
+  }) async {
+    final response = await post(
+      StocksApi.getStockSuggestList.replaceAll(RegExp('{quantity}'), quantity),
     );
     return response;
   }
