@@ -5,10 +5,17 @@ import 'package:optimizing_stock_investment_portfolio/base/base_service.dart';
 import 'models/view_post_stocks_request.dart';
 
 class StocksService extends BaseService {
-  Future<Response> viewPostStocks(
-      {required ViewPostStocksRequest request}) async {
+  Future<Response> viewPostStocks({
+    required ViewPostStocksRequest request,
+    required String page,
+    required String sortColumn,
+    required String sortDirection,
+  }) async {
     final response = await post(
-      StocksApi.viewPostStocks,
+      StocksApi.viewPostStocks
+          .replaceAll(RegExp('{page}'), page)
+          .replaceAll(RegExp('{sortColumn}'), sortColumn)
+          .replaceAll(RegExp('{sortDirection}'), sortDirection),
       data: request.toJson(),
     );
     return response;

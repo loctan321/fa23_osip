@@ -47,12 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           }
           if (state.loginStatus == LoginStatus.loginSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (e) => const MainNavigation(),
-              ),
-            );
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const MainNavigation()),
+                (route) => false);
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

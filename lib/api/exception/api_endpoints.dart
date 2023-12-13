@@ -7,7 +7,8 @@ class UsersApi {
 }
 
 class StocksApi {
-  static const viewPostStocks = "/api/Stocks/ViewPost?page=1&pageSize=10&sortColumn=StockName&sortDirection=true";
+  static const viewPostStocks =
+      "/api/Stocks/viewstock?page={page}&pageSize=10&sortColumn={sortColumn}&sortDirection={sortDirection}";
   static const getStockChart =
       "/api/Stocks/GetStockChart?ticker={ticker}&date={date}";
   static const getQuadraticStockSelect =
