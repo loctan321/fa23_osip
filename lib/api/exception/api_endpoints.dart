@@ -1,12 +1,13 @@
 const baseUrl =
-    "https://5321-2402-800-6370-5623-212e-b6d2-a907-d934.ngrok-free.app";
+    "https://6697-2402-800-6370-54b0-91bd-ac0f-f56c-b270.ngrok-free.app/";
 
 class UsersApi {
   static const login = "/Users/Login";
+  static const register = "/Users/Register";
 }
 
 class StocksApi {
-  static const viewPostStocks = "/api/Stocks/ViewPost?page=1&pageSize=10";
+  static const viewPostStocks = "/api/Stocks/ViewPost?page=1&pageSize=10&sortColumn=StockName&sortDirection=true";
   static const getStockChart =
       "/api/Stocks/GetStockChart?ticker={ticker}&date={date}";
   static const getQuadraticStockSelect =

@@ -33,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+
       create: (context) => bloc,
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -95,7 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
-            body: state.isLoading
+            body:
+              
+             state.isLoading
                 ? const Loading()
                 : state.stockDataList.isEmpty
                     ? const Empty()

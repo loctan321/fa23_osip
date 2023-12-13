@@ -216,7 +216,7 @@ class _SignUpScreenState extends State<RegisterScreen> {
                             ),
                           ),
                           Text(
-                            'Personal data',
+                            'OSP',
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: lightColorScheme.primary,
@@ -243,7 +243,7 @@ class _SignUpScreenState extends State<RegisterScreen> {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                     content: Text(
-                                        'Please agree to the processing of personal data')),
+                                        'Please agree to the processing of OSP')),
                               );
                             }
                           },
@@ -334,6 +334,7 @@ class _SignUpScreenState extends State<RegisterScreen> {
     );
   }
 
+  
   Future<void> _sendOtp() async {
     if (_formSignupKey.currentState!.validate()) {
       final response = await http.post(
