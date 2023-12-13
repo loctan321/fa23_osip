@@ -4,4 +4,5 @@ class Routes {
   // detail stock
   static const detailStock = "/detailStock";
   static const quadraticStockSelect = "/quadraticStockSelect";
+  static const detailQuadratic = "/detailQuadratic";
 }

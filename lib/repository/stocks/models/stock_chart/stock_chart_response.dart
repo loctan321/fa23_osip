@@ -31,8 +31,7 @@ class StockChartResponse {
   ) {
     return jsonArray
         .map(
-          (dynamic e) =>
-              StockChartResponse.fromJson(e as Map<String, dynamic>),
+          (dynamic e) => StockChartResponse.fromJson(e as Map<String, dynamic>),
         )
         .toList();
   }
