@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
-import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
+import 'package:optimizing_stock_investment_portfolio/widgets/input/drop_down/drop_down_option_chart_select.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/loading.dart';
 
 import 'detail_stock_bloc.dart';
 import 'detail_stock_state.dart';
 import 'models/detail_stock_params.dart';
+import 'widgets/financial_chart.dart';
 
 class DetailStockScreen extends StatefulWidget {
   const DetailStockScreen({
@@ -26,7 +27,8 @@ class DetailStockScreen extends StatefulWidget {
 class _DetailStockScreenState extends State<DetailStockScreen> {
   late DetailStockBloc bloc;
 
-  int numSuggest = 1;
+  int optionChange = 1;
+  bool changeChart = true;
 
   @override
   void initState() {
@@ -51,6 +53,7 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
               title: Text(widget.params.ticker),
             ),
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: EdgeInsets.symmetric(
@@ -58,87 +61,47 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
                     vertical: 12.h,
                   ),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          if (numSuggest > 1) {
+                      DropDownOptionChartSelect(
+                        initValue: optionChange,
+                        onChanged: (value) {
+                          if (value != null) {
                             setState(() {
-                              numSuggest -= 1;
+                              optionChange = value;
                             });
+                            bloc.getData(
+                              ticker: widget.params.ticker,
+                              date: widget.params.date,
+                              option: value,
+                            );
                           }
                         },
+                        isExpanded: false,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            changeChart = !changeChart;
+                          });
+                        },
                         child: Container(
-                          height: 28,
-                          width: 28,
+                          height: 40,
+                          width: 40,
                           decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             color: context.appColor.colorBlue,
                             borderRadius: BorderRadius.circular(4.r),
                           ),
                           child: Icon(
-                            Icons.remove,
-                            size: 20,
+                            changeChart
+                                ? Icons.area_chart_outlined
+                                : Icons.show_chart_outlined,
+                            size: 30,
                             color: context.appColor.colorWhite,
                           ),
                         ),
-                      ),
-                      spaceW4,
-                      Text(
-                        '$numSuggest Month',
-                        style: context.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      spaceW4,
-                      InkWell(
-                        onTap: () {
-                          if (numSuggest < 12) {
-                            setState(() {
-                              numSuggest += 1;
-                            });
-                          }
-                        },
-                        child: Container(
-                          height: 28,
-                          width: 28,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: context.appColor.colorBlue,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Icon(
-                            Icons.add,
-                            size: 20,
-                            color: context.appColor.colorWhite,
-                          ),
-                        ),
-                      ),
-                      spaceW12,
-                      InkWell(
-                        onTap: () {
-                          bloc.getData(
-                            ticker: widget.params.ticker,
-                            date: widget.params.date,
-                            option: numSuggest,
-                          );
-                        },
-                        child: Container(
-                          height: 28,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 12.w, vertical: 4.h),
-                          decoration: BoxDecoration(
-                            color: context.appColor.colorGreen,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Text(
-                            'Change option',
-                            style: context.textTheme.bodyMedium?.copyWith(
-                              color: context.appColor.colorWhite,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -161,27 +124,29 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
                             ],
                           )
                         : Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  AspectRatio(
-                                    aspectRatio: 1,
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        right: 16.w,
-                                        left: 16.w,
-                                        top: 20.h,
-                                        bottom: 72.h,
-                                      ),
-                                      child: LineChart(
-                                        mainData(),
-                                      ),
+                            child: changeChart
+                                ? Financial(dataList: state.dataList)
+                                : SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      children: [
+                                        AspectRatio(
+                                          aspectRatio: 1,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                              right: 16.w,
+                                              left: 16.w,
+                                              top: 20.h,
+                                              bottom: 72.h,
+                                            ),
+                                            child: LineChart(
+                                              mainData(),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
                           ),
               ],
             ),
