@@ -9,6 +9,8 @@ class HomeState {
   final String nameSearch;
   final DateTime? dateSearch;
   final List<ViewPostStockResponse>? stockDataList;
+  final List<ViewPostStockResponse> dataList;
+  final ViewPostStockResponse? dataUpdate;
   final List<String> addList;
   final int currentPage;
   final bool canLoadMore;
@@ -20,6 +22,8 @@ class HomeState {
     this.nameSearch = '',
     this.dateSearch,
     this.stockDataList,
+    this.dataList = const [],
+    this.dataUpdate,
     this.addList = const [],
     this.currentPage = 1,
     this.canLoadMore = false,

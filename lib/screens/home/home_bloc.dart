@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:optimizing_stock_investment_portfolio/api/services/stocks/models/view_post_stocks_request.dart';
@@ -40,14 +41,24 @@ class HomeBloc extends Cubit<HomeState> {
         sortDirection: state.sortDirection,
       );
 
-      var newDataList = List<ViewPostStockResponse>.from(data.data ?? []);
+      var dataTemp = List<ViewPostStockResponse>.from(data.data ?? []);
+      final addList = List<String>.from(state.addList);
+
+      dataTemp = dataTemp
+          .map(
+              (e) => addList.contains(e.ticker) ? e.copyWith(isCheck: true) : e)
+          .toList();
+
+      final dataList = List<ViewPostStockResponse>.from(state.dataList)
+        ..addAll(dataTemp);
 
       final maxLoadMore = ((data.totalPages ?? 0) / 10).floor();
 
       final canLoadMore = page <= maxLoadMore;
 
       emit(state.copyWith(
-        stockDataList: newDataList,
+        dataList: dataList,
+        stockDataList: dataTemp,
         currentPage: page,
         canLoadMore: canLoadMore,
       ));
@@ -84,37 +95,37 @@ class HomeBloc extends Cubit<HomeState> {
 
   onAddList(String? ticker, bool isCheck) {
     if (ticker != null) {
-      final stockDataList =
-          List<ViewPostStockResponse>.from(state.stockDataList ?? []);
+      emit(state.copyWith(dataUpdate: null));
+      final dataList = List<ViewPostStockResponse>.from(state.dataList);
 
-      final element = stockDataList.firstWhere((e) => e.ticker == ticker);
+      final element = dataList.firstWhereOrNull((e) => e.ticker == ticker);
 
       final addList = List<String>.from(state.addList);
 
-      if (isCheck) {
-        element.isCheck = true;
-        addList.add(ticker);
-      } else {
-        element.isCheck = false;
-        addList.removeWhere((element) => element == ticker);
-      }
+      if (element != null) {
+        if (isCheck) {
+          element.isCheck = true;
+          addList.add(ticker);
+        } else {
+          element.isCheck = false;
+          addList.removeWhere((element) => element == ticker);
+        }
 
-      emit(state.copyWith(
-        addList: addList,
-        stockDataList: stockDataList,
-      ));
+        emit(state.copyWith(
+          addList: addList,
+          dataUpdate: element,
+        ));
+      }
     }
   }
 
   onUnCheckAllList() {
-    final stockDataList =
-        List<ViewPostStockResponse>.from(state.stockDataList ?? []);
+    emit(state.copyWith(addList: []));
+    onFetch(page: 1);
+  }
 
-    final data = stockDataList.map((e) => e.copyWith(isCheck: false)).toList();
-
-    emit(state.copyWith(
-      addList: [],
-      stockDataList: data,
-    ));
+  onUpdateAddList(List<String> list) {
+    emit(state.copyWith(addList: list));
+    onFetch(page: 1);
   }
 }

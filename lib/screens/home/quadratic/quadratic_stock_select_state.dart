@@ -6,11 +6,13 @@ part 'quadratic_stock_select_state.g.dart';
 @CopyWith()
 class QuadraticStockSelectState {
   final bool isLoading;
+  final bool isGetSuggestSuccess;
   final List<String> listStockSelect;
   final List<QuadraticStockSelectResponse>? dataList;
 
   const QuadraticStockSelectState({
     this.isLoading = false,
+    this.isGetSuggestSuccess = false,
     this.listStockSelect = const [],
     this.dataList,
   });
