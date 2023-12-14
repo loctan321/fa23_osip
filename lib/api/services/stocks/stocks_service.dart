@@ -24,11 +24,13 @@ class StocksService extends BaseService {
   Future<Response> getStockChart({
     required String ticker,
     required String date,
+    required String option,
   }) async {
     final response = await post(
       StocksApi.getStockChart
           .replaceAll(RegExp('{ticker}'), ticker)
-          .replaceAll(RegExp('{date}'), date),
+          .replaceAll(RegExp('{date}'), date)
+          .replaceAll(RegExp('{option}'), option),
     );
     return response;
   }

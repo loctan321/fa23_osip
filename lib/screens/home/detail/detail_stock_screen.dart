@@ -3,6 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
+import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/loading.dart';
 
 import 'detail_stock_bloc.dart';
@@ -23,6 +25,8 @@ class DetailStockScreen extends StatefulWidget {
 
 class _DetailStockScreenState extends State<DetailStockScreen> {
   late DetailStockBloc bloc;
+
+  int numSuggest = 1;
 
   @override
   void initState() {
@@ -46,31 +50,141 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
             appBar: AppBar(
               title: Text(widget.params.ticker),
             ),
-            body: state.isLoading
-                ? const Loading()
-                : state.dataList.isEmpty
-                    ? const Empty()
-                    : SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            AspectRatio(
-                              aspectRatio: 1,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  right: 16.w,
-                                  left: 16.w,
-                                  top: 20.h,
-                                  bottom: 72.h,
-                                ),
-                                child: LineChart(
-                                  mainData(),
-                                ),
-                              ),
-                            ),
-                          ],
+            body: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 12.h,
+                  ),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (numSuggest > 1) {
+                            setState(() {
+                              numSuggest -= 1;
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 28,
+                          width: 28,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: context.appColor.colorBlue,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Icon(
+                            Icons.remove,
+                            size: 20,
+                            color: context.appColor.colorWhite,
+                          ),
                         ),
                       ),
+                      spaceW4,
+                      Text(
+                        '$numSuggest Month',
+                        style: context.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      spaceW4,
+                      InkWell(
+                        onTap: () {
+                          if (numSuggest < 12) {
+                            setState(() {
+                              numSuggest += 1;
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 28,
+                          width: 28,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            color: context.appColor.colorBlue,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            size: 20,
+                            color: context.appColor.colorWhite,
+                          ),
+                        ),
+                      ),
+                      spaceW12,
+                      InkWell(
+                        onTap: () {
+                          bloc.getData(
+                            ticker: widget.params.ticker,
+                            date: widget.params.date,
+                            option: numSuggest,
+                          );
+                        },
+                        child: Container(
+                          height: 28,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 12.w, vertical: 4.h),
+                          decoration: BoxDecoration(
+                            color: context.appColor.colorGreen,
+                            borderRadius: BorderRadius.circular(4.r),
+                          ),
+                          child: Text(
+                            'Change option',
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              color: context.appColor.colorWhite,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                state.isLoading
+                    ? Column(
+                        children: [
+                          SizedBox(
+                            height: 1.sh / 3,
+                          ),
+                          const Loading(),
+                        ],
+                      )
+                    : state.dataList.isEmpty
+                        ? Column(
+                            children: [
+                              SizedBox(
+                                height: 1.sh / 3,
+                              ),
+                              const Empty(),
+                            ],
+                          )
+                        : Expanded(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  AspectRatio(
+                                    aspectRatio: 1,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        right: 16.w,
+                                        left: 16.w,
+                                        top: 20.h,
+                                        bottom: 72.h,
+                                      ),
+                                      child: LineChart(
+                                        mainData(),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+              ],
+            ),
           );
         },
       ),
