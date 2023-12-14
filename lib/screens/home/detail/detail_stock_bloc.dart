@@ -8,12 +8,13 @@ class DetailStockBloc extends Cubit<DetailStockState> {
   final StocksRepository _stocksRepository = StocksRepository();
   DetailStockBloc() : super(const DetailStockState());
 
-  getData({required String ticker, required String date}) async {
+  getData({required String ticker, required String date, int? option}) async {
     try {
       emit(state.copyWith(isLoading: true));
       final result = await _stocksRepository.getStockChart(
         ticker: ticker,
         date: date,
+        option: option ?? 1,
       );
       emit(state.copyWith(
         dataList: result,

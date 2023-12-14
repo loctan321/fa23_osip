@@ -40,11 +40,13 @@ class StocksRepository {
   Future<List<StockChartResponse>> getStockChart({
     required String ticker,
     required String date,
+    required int option,
   }) async {
     try {
       final response = await _service.getStockChart(
         ticker: ticker,
         date: date,
+        option: option.toString(),
       );
       if (response.statusCode == 200) {
         final result = StockChartResponse.fromJsonArray(response.data);
