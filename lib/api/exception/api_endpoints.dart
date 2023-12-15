@@ -1,9 +1,13 @@
 const baseUrl =
-    "https://f1b3-2402-800-6370-54b0-b05f-1612-9855-ffd2.ngrok-free.app/";
+    "https://29f4-2402-800-6370-54b0-8df7-2bc2-a54f-18b8.ngrok-free.app/";
 
 class UsersApi {
   static const login = "/Users/Login";
-  static const register = "/Users/Register";
+  static const register = "/Users/Register?otp={otp}";
+  static const sendOTP = "/api/Email/SendOtp?toEmail={email}";
+  static const checkOTP = "/api/Otp/CheckOtp?otp={otp}";
+  static const getUser = "/Users/GetById";
+  static const changePassword = "/Users/ChangePassword";
 }
 
 class StocksApi {

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:optimizing_stock_investment_portfolio/api/services/rest_client.dart';
 import 'package:optimizing_stock_investment_portfolio/api/services/users/models/login_request.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/users/users_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +33,7 @@ class LoginBloc extends Cubit<LoginState> {
         await SharedPreferences.getInstance().then((prefs) {
           prefs.setString('token', result.token ?? '');
         });
+        RestClient().setToken('Bearer ${result.token}');
       } else {
         emit(state.copyWith(loginStatus: LoginStatus.loginFailure));
       }
