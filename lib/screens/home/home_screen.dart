@@ -239,12 +239,12 @@ class _HomeScreenState extends State<HomeScreen> {
             title: 'Daily profit',
             value: data.dailyProfit.toString(),
           ),
-          spaceH2,
-          _itemValue(
-            context,
-            title: 'Standard deviation',
-            value: data.standardDeviation.toString(),
-          ),
+          // spaceH2,
+          // _itemValue(
+          //   context,
+          //   title: 'Standard deviation',
+          //   value: data.standardDeviation.toString(),
+          // ),
           spaceH2,
           _itemValue(
             context,
