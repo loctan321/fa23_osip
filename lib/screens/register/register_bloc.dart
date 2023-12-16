@@ -12,11 +12,11 @@ class RegisterBloc extends Cubit<RegisterState> {
   onSendOTP(String email) async {
     emit(state.copyWith(isSendOTP: false));
     try {
-      await _usersRepository.sendOTP(
+      final otpCheck = await _usersRepository.sendOTP(
         email: email,
       );
 
-      emit(state.copyWith(isSendOTP: true));
+      emit(state.copyWith(isSendOTP: true, otpCheck: otpCheck));
     } catch (error, statckTrace) {
       if (kDebugMode) {
         print("$error + $statckTrace");
@@ -35,9 +35,7 @@ class RegisterBloc extends Cubit<RegisterState> {
   }) async {
     emit(state.copyWith(isSubmit: false));
     try {
-      final checkOTP = await _usersRepository.checkOTP(otp: otp);
-
-      if (checkOTP == 'OTP is correct.') {
+      if (otp == state.otpCheck) {
         final result = await _usersRepository.register(
           request: RegisterUserRequest(
             username: username,

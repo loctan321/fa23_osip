@@ -8,11 +8,13 @@ class RegisterState {
   final bool isSubmit;
   final bool isSubmitSuccess;
   final String messageSubmit;
+  final String? otpCheck;
 
   const RegisterState({
     this.isSendOTP = false,
     this.isSubmit = false,
     this.isSubmitSuccess = false,
     this.messageSubmit = '',
+    this.otpCheck,
   });
 }

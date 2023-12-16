@@ -15,7 +15,7 @@ class UsersService extends BaseService {
     return response;
   }
 
-  Future<Response> sendOTP({required String email}) async {
+  Future<String> sendOTP({required String email}) async {
     final response = await post(
       UsersApi.sendOTP.replaceAll(RegExp('{email}'), email),
     );

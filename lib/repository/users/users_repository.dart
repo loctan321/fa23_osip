@@ -31,19 +31,21 @@ class UsersRepository {
     }
   }
 
-  Future<void> sendOTP({
+  Future<String?> sendOTP({
     required String email,
   }) async {
     try {
       final response = await _service.sendOTP(
         email: email,
       );
-      final duy = response;
-      print(response);
+      final result = response;
+      print(result);
+      return result;
     } catch (error, statckTrace) {
       if (kDebugMode) {
         print("$error + $statckTrace");
       }
+      return null;
     }
   }
 
