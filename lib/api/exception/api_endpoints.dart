@@ -1,9 +1,5 @@
 const baseUrl =
-<<<<<<< HEAD
     "https://ac6a-2402-800-6370-54b0-8df7-2bc2-a54f-18b8.ngrok-free.app/";
-=======
-    "https://f1b3-2402-800-6370-54b0-b05f-1612-9855-ffd2.ngrok-free.app/";
->>>>>>> locfuho
 
 class UsersApi {
   static const login = "/Users/Login";
