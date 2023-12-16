@@ -71,6 +71,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BlocListener<HomeBloc, HomeState>(
             listenWhen: (previous, current) =>
+                previous.dataUpdate != current.dataUpdate,
+            listener: (context, state) {
+              if (_pagingController.itemList != null &&
+                  state.dataUpdate != null) {
+                for (var i = 0; i < _pagingController.itemList!.length; i++) {
+                  if (_pagingController.itemList![i].ticker ==
+                      state.dataUpdate?.ticker) {
+                    setState(() {
+                      _pagingController.itemList![i] = state.dataUpdate!;
+                    });
+                  }
+                }
+              }
+            },
+          ),
+          BlocListener<HomeBloc, HomeState>(
+            listenWhen: (previous, current) =>
                 previous.nameSearch != current.nameSearch ||
                 previous.dateSearch != current.dateSearch ||
                 previous.sortColumn != current.sortColumn ||
@@ -101,7 +118,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPressed: () {
                             routeService.pushNamed(Routes.quadraticStockSelect,
                                 arguments: QuadraticStockSelectParams(
-                                  onSelectChanged: (p0) {},
+                                  onSelectChanged: (list) {
+                                    bloc.onUpdateAddList(list);
+                                  },
                                   onUnCheck: (ticker) =>
                                       bloc.onAddList(ticker, false),
                                   onUnCheckAllList: () =>
@@ -127,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: context.appColor.colorRed,
                                       ),
                                       child: Text(
-                                        length < 10 ? '//' : '9+',
+                                        length < 10 ? '$length' : '9+',
                                         style: context.textTheme.labelMedium
                                             ?.copyWith(
                                           color: context.appColor.colorWhite,

@@ -7,11 +7,9 @@ part 'detail_stock_state.g.dart';
 class DetailStockState {
   final bool isLoading;
   final List<StockChartResponse> dataList;
-  final int optionChange;
 
   const DetailStockState({
     this.isLoading = false,
     this.dataList = const [],
-    this.optionChange = 1,
   });
 }

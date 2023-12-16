@@ -48,15 +48,28 @@ class _QuadraticStockSelectScreenState
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => bloc,
-      child: BlocListener<QuadraticStockSelectBloc, QuadraticStockSelectState>(
-        listenWhen: (previous, current) =>
-            previous.dataList != current.dataList && current.dataList != null,
-        listener: (context, state) {
-          routeService.pushNamed(Routes.detailQuadratic,
-              arguments: DetailQuadraticParams(
-                dataList: state.dataList,
-              ));
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<QuadraticStockSelectBloc, QuadraticStockSelectState>(
+            listenWhen: (previous, current) =>
+                previous.dataList != current.dataList &&
+                current.dataList != null,
+            listener: (context, state) {
+              routeService.pushNamed(Routes.detailQuadratic,
+                  arguments: DetailQuadraticParams(
+                    dataList: state.dataList,
+                  ));
+            },
+          ),
+          BlocListener<QuadraticStockSelectBloc, QuadraticStockSelectState>(
+            listenWhen: (previous, current) =>
+                previous.isGetSuggestSuccess != current.isGetSuggestSuccess &&
+                current.isGetSuggestSuccess,
+            listener: (context, state) {
+              widget.params.onSelectChanged(state.listStockSelect);
+            },
+          ),
+        ],
         child: BlocBuilder<QuadraticStockSelectBloc, QuadraticStockSelectState>(
           builder: (context, state) {
             return Scaffold(

@@ -24,7 +24,7 @@ class QuadraticStockSelectBloc extends Cubit<QuadraticStockSelectState> {
 
   getStockSuggestList(int quantity) async {
     try {
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(isLoading: true, isGetSuggestSuccess: false));
 
       final result = await _stocksRepository.getStockSuggestList(
         quantity: quantity,
@@ -41,11 +41,14 @@ class QuadraticStockSelectBloc extends Cubit<QuadraticStockSelectState> {
       emit(state.copyWith(
         listStockSelect: [...listStockSelect, ...filterList],
         isLoading: false,
+        isGetSuggestSuccess: true,
       ));
     } catch (error, statckTrace) {
       if (kDebugMode) {
         print("$error + $statckTrace");
       }
+    } finally {
+      emit(state.copyWith(isGetSuggestSuccess: false));
     }
   }
 
