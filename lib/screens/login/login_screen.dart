@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:optimizing_stock_investment_portfolio/navigator.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/register_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/register/register_screen.dart';
 
 import '../../widgets/custom_scaffort.dart';
 import '../../theme/theme.dart';

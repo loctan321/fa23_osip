@@ -20,7 +20,8 @@ class QuadraticStockSelectResponse {
   ) {
     return jsonArray
         .map(
-          (dynamic e) => QuadraticStockSelectResponse.fromJson(e as Map<String, dynamic>),
+          (dynamic e) =>
+              QuadraticStockSelectResponse.fromJson(e as Map<String, dynamic>),
         )
         .toList();
   }

@@ -1,58 +1,86 @@
-import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:optimizing_stock_investment_portfolio/api/services/users/models/register_user_request.dart';
+import 'package:optimizing_stock_investment_portfolio/repository/users/users_repository.dart';
 
-import 'package:http/http.dart' as http;
-import 'package:bloc/bloc.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/register/models/register_user.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/register/register_event.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/register/register_state.dart';
+import 'register_state.dart';
 
-class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
-  final String sendOtpUrl = 'https://10.0.2.2:7053/api/Email/SendOtp?toEmail=';
-  final String checkOtpUrl = 'https://5321-2402-800-6370-5623-212e-b6d2-a907-d934.ngrok-free.app/api/Otp/CheckOtp?otp=';
+class RegisterBloc extends Cubit<RegisterState> {
+  final UsersRepository _usersRepository = UsersRepository();
+  RegisterBloc() : super(const RegisterState());
 
-  RegisterBloc() : super(RegisterInitial());
+  onSendOTP(String email) async {
+    emit(state.copyWith(isSendOTP: false));
+    try {
+      final otpCheck = await _usersRepository.sendOTP(
+        email: email,
+      );
 
-  @override
-  Stream<RegisterState> mapEventToState(RegisterEvent event) async* {
-    if (event is RegisterEvent) {
-      try {
-        yield RegisterLoading();
-
-        // Send OTP
-        final response = await http.get(Uri.parse(sendOtpUrl + event.email));
-        if (response.statusCode != 200) {
-          throw Exception('OTP sending failed');
-        }
-
-        // Get OTP from response
-        // (This implementation assumes the response contains the OTP)
-        final otp = jsonDecode(response.body)['otp'];
-
-        // Check OTP
-        final checkOtpResponse = await http.get(Uri.parse(checkOtpUrl + otp));
-        if (checkOtpResponse.statusCode != 200) {
-          throw Exception('Invalid OTP');
-        }
-
-        // Register user
-        final userResponse = await http.post(
-          Uri.parse('https://5321-2402-800-6370-5623-212e-b6d2-a907-d934.ngrok-free.app/Users/Register'),
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(
-            event.toJson()..addAll({"roleid": 2}), // Add default role id
-          ),
-        );
-        if (userResponse.statusCode != 200) {
-          throw Exception('Registration failed');
-        }
-
-        // Parse user from response
-        final user = User.fromJson(jsonDecode(userResponse.body));
-
-        yield RegisterSuccess(user);
-      } catch (e) {
-        yield RegisterError(e.toString());
+      emit(state.copyWith(isSendOTP: true, otpCheck: otpCheck));
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
       }
+    } finally {
+      emit(state.copyWith(isSendOTP: false));
+    }
+  }
+
+  onSubmit({
+    required String username,
+    required String password,
+    required String email,
+    required String fullname,
+    required String otp,
+  }) async {
+    emit(state.copyWith(isSubmit: false));
+    try {
+      if (otp == state.otpCheck) {
+        final result = await _usersRepository.register(
+          request: RegisterUserRequest(
+            username: username,
+            password: password,
+            email: email,
+            fullname: fullname,
+            roleid: 2,
+          ),
+          otp: otp,
+        );
+
+        if (result != null) {
+          if (result == 'Registration successful') {
+            emit(state.copyWith(
+              isSubmit: true,
+              isSubmitSuccess: true,
+              messageSubmit: result,
+            ));
+          } else {
+            emit(state.copyWith(
+              isSubmit: true,
+              isSubmitSuccess: false,
+              messageSubmit: result,
+            ));
+          }
+        } else {
+          emit(state.copyWith(
+            isSubmit: true,
+            isSubmitSuccess: false,
+            messageSubmit: 'OTP is not correct',
+          ));
+        }
+      } else {
+        emit(state.copyWith(
+          isSubmit: true,
+          isSubmitSuccess: false,
+          messageSubmit: 'OTP is not correct',
+        ));
+      }
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    } finally {
+      emit(state.copyWith(isSubmit: false));
     }
   }
 }

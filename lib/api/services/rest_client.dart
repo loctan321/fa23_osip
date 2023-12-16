@@ -9,7 +9,7 @@ typedef ApiErrorCallback = Function(
 class RestClient {
   static const kTimeout = 90000;
   static const kEnableLog = kDebugMode;
-  static const kAccessToken = 'access_token';
+  static const kAccessToken = 'Authorization';
   static const kDeviceId = "x-device-id";
   static const kDeviceType = "x-device-type";
 

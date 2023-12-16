@@ -14,12 +14,12 @@ class User {
   });
 
   Map<String, dynamic> toJson() => {
-    "username": username,
-    "password": password,
-    "email": email,
-    "fullname": fullname,
-    "roleid": roleId,
-  };
+        "username": username,
+        "password": password,
+        "email": email,
+        "fullname": fullname,
+        "roleid": roleId,
+      };
 
   static fromJson(jsonDecode) {}
 }

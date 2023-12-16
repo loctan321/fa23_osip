@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/register/register_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/register_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/custom_scaffort.dart';
 import 'package:optimizing_stock_investment_portfolio/theme/theme.dart';
@@ -32,8 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             )),
                         TextSpan(
-                            text:
-                                ' ',
+                            text: ' ',
                             style: TextStyle(
                               fontSize: 15,
                               // height: 0,

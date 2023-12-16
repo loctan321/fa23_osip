@@ -1,21 +1,20 @@
-import 'package:optimizing_stock_investment_portfolio/screens/register/models/register_user.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 
+part 'register_state.g.dart';
+
+@CopyWith()
 class RegisterState {
-  const RegisterState();
-}
+  final bool isSendOTP;
+  final bool isSubmit;
+  final bool isSubmitSuccess;
+  final String messageSubmit;
+  final String? otpCheck;
 
-class RegisterInitial extends RegisterState {}
-
-class RegisterLoading extends RegisterState {}
-
-class RegisterSuccess extends RegisterState {
-  final User user;
-
-  const RegisterSuccess(this.user);
-}
-
-class RegisterError extends RegisterState {
-  final String message;
-
-  const RegisterError(this.message);
+  const RegisterState({
+    this.isSendOTP = false,
+    this.isSubmit = false,
+    this.isSubmitSuccess = false,
+    this.messageSubmit = '',
+    this.otpCheck,
+  });
 }
