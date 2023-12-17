@@ -5,6 +5,7 @@ import 'package:optimizing_stock_investment_portfolio/api/services/stocks/models
 import 'package:optimizing_stock_investment_portfolio/helper/date_time.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/stocks/models/view_post_stock/view_post_stock_response.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/stocks/stocks_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'home_state.dart';
 
@@ -127,5 +128,35 @@ class HomeBloc extends Cubit<HomeState> {
   onUpdateAddList(List<String> list) {
     emit(state.copyWith(addList: list));
     onFetch(page: 1);
+  }
+
+  onAddWhishList(ViewPostStockResponse data) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Fetch and decode data
+    final String? whishListString = prefs.getString('whishList_key');
+
+    var dataList = <ViewPostStockResponse>[];
+
+    if (whishListString != null) {
+      dataList = ViewPostStockResponse.decode(whishListString);
+    } else {
+      dataList = [];
+    }
+
+    if (dataList.isEmpty) {
+      dataList.add(data);
+    } else {
+      final temp =
+          dataList.firstWhereOrNull((element) => element.ticker == data.ticker);
+      if (temp == null) {
+        dataList.add(data);
+      }
+    }
+
+    // Encode and store data in SharedPreferences
+    final String encodedData = ViewPostStockResponse.encode(dataList);
+
+    await prefs.setString('whishList_key', encodedData);
   }
 }

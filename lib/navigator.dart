@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/forum_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile/profile_screen.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/wishlist_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/whishlist/whishlist_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/home/home_screen.dart';
 
 class MainNavigation extends StatefulWidget {
@@ -37,8 +37,8 @@ class __MainNavigatorStateState extends State<MainNavigation> {
   final List<Widget> _screens = <Widget>[
     const HomeScreen(),
     const ForumScreen(),
-    const WishlistScreen(),
-    ProfileScreen()
+    const WhishlistScreen(),
+    const ProfileScreen()
   ];
 
   void _onItemTapped(int index) {

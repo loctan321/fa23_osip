@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 
@@ -48,4 +50,28 @@ class ViewPostStockResponse {
         )
         .toList();
   }
+
+  static Map<String, dynamic> toMap(ViewPostStockResponse data) => {
+        'ticker': data.ticker,
+        'dtyyyymmdd': data.dtyyyymmdd,
+        'open': data.open,
+        'high': data.high,
+        'low': data.low,
+        'close': data.close,
+        'volume': data.volume,
+        'dailyProfit': data.dailyProfit,
+        'standardDeviation': data.standardDeviation,
+        'sharpeRatio': data.sharpeRatio,
+      };
+
+  static String encode(List<ViewPostStockResponse> data) => json.encode(
+        data
+            .map<Map<String, dynamic>>((data) => ViewPostStockResponse.toMap(data))
+            .toList(),
+      );
+
+  static List<ViewPostStockResponse> decode(String data) =>
+      (json.decode(data) as List<dynamic>)
+          .map<ViewPostStockResponse>((item) => ViewPostStockResponse.fromJson(item))
+          .toList();
 }
