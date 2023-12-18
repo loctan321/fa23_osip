@@ -2,6 +2,7 @@ import 'package:intl/intl.dart';
 
 const dd_mm_yyyy = 'dd/MM/yyyy';
 const yyyy_mm_dd = 'yyyy-MM-dd';
+const yyyy_mm_dd_HH_mm = 'yyyy-MM-dd HH:mm';
 
 extension FormatDate on DateTime {
   DateTime get toDay {

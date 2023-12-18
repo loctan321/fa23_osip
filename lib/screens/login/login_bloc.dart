@@ -32,6 +32,8 @@ class LoginBloc extends Cubit<LoginState> {
         emit(state.copyWith(loginStatus: LoginStatus.loginSuccess));
         await SharedPreferences.getInstance().then((prefs) {
           prefs.setString('token', result.token ?? '');
+          prefs.setInt('user_id', result.id ?? 0);
+          prefs.setString('user_name', result.fullname ?? '');
         });
         RestClient().setToken('Bearer ${result.token}');
       } else {

@@ -66,12 +66,14 @@ class ViewPostStockResponse {
 
   static String encode(List<ViewPostStockResponse> data) => json.encode(
         data
-            .map<Map<String, dynamic>>((data) => ViewPostStockResponse.toMap(data))
+            .map<Map<String, dynamic>>(
+                (data) => ViewPostStockResponse.toMap(data))
             .toList(),
       );
 
   static List<ViewPostStockResponse> decode(String data) =>
       (json.decode(data) as List<dynamic>)
-          .map<ViewPostStockResponse>((item) => ViewPostStockResponse.fromJson(item))
+          .map<ViewPostStockResponse>(
+              (item) => ViewPostStockResponse.fromJson(item))
           .toList();
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:optimizing_stock_investment_portfolio/screens/forum_screen.dart';
+import 'package:optimizing_stock_investment_portfolio/screens/forum_post/forum_post_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/profile/profile_screen.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/whishlist/whishlist_screen.dart';
@@ -36,7 +36,7 @@ class __MainNavigatorStateState extends State<MainNavigation> {
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   final List<Widget> _screens = <Widget>[
     const HomeScreen(),
-    const ForumScreen(),
+    const ForumPostScreen(),
     const WhishlistScreen(),
     const ProfileScreen()
   ];
