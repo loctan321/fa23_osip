@@ -1,5 +1,5 @@
 const baseUrl =
-    "https://29f4-2402-800-6370-54b0-8df7-2bc2-a54f-18b8.ngrok-free.app/";
+    "https://7f60-2402-800-6370-54b0-c08d-fb74-d85c-3eef.ngrok-free.app/";
 
 class UsersApi {
   static const login = "/Users/Login";
@@ -19,4 +19,14 @@ class StocksApi {
       "/api/Stocks/QuadraticForSelectStock?mathWithDailyOrMonth={mathWithDailyOrMonth}";
   static const getStockSuggestList =
       "/api/Stocks/GetListStockName?quantity={quantity}";
+}
+
+class ForumPostsApi {
+  static const viewForumPosts = "/api/ForumPosts";
+  static const getComments = "/api/Comments/post/{id}";
+  static const sendComment = "/api/Comments";
+  static const getMyReacts = "/api/Reacts/getMyId";
+  static const reactLike = "/api/Reacts/Like";
+  static const reactDislike = "/api/Reacts/Dislike";
+  static const unReact = "/api/Reacts/{id}?postId={postId}";
 }

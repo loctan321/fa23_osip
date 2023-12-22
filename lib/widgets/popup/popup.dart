@@ -7,7 +7,7 @@ import 'package:optimizing_stock_investment_portfolio/helper/date_time.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
 
 Widget _wrapper(BuildContext context, {required Widget child}) => Container(
-      decoration:  BoxDecoration(
+      decoration: BoxDecoration(
         color: context.appColor.colorWhite,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16),

@@ -285,7 +285,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Draw daily profit',
                 backgroundColor: context.appColor.colorOrange,
                 onTap: () {
-                  //
+                  routeService.pushNamed(Routes.detailStock,
+                      arguments: DetailStockParams(
+                        ticker: data.ticker ?? '',
+                        date: data.dtyyyymmdd ?? '',
+                        onReload: () {
+                          //
+                        },
+                      ));
                 },
               ),
               spaceW12,
@@ -294,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Add favorite',
                 backgroundColor: context.appColor.colorBlue,
                 onTap: () {
-                  //
+                  bloc.onAddWhishList(data);
                 },
               ),
               InkWell(
