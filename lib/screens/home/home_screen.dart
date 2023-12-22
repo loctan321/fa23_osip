@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Stack(
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.search),
+                          icon: const Icon(Icons.favorite),
                           onPressed: () {
                             routeService.pushNamed(Routes.quadraticStockSelect,
                                 arguments: QuadraticStockSelectParams(
@@ -315,7 +315,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(4.r),
                       ),
                       child: Icon(
-                        Icons.search,
+                        Icons.favorite,
                         size: 20,
                         color: context.appColor.colorWhite,
                       ),
