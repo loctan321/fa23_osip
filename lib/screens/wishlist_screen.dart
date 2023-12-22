@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({super.key});
+// class WishlistScreen extends StatefulWidget {
+//   const WishlistScreen({super.key});
 
-  @override
-  State<WishlistScreen> createState() => _WishlistScreenState();
-}
+//   @override
+//   State<WishlistScreen> createState() => _WishlistScreenState();
+// }
 
-class _WishlistScreenState extends State<WishlistScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}
+// class _WishlistScreenState extends State<WishlistScreen> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }

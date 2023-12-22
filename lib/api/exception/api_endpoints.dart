@@ -1,5 +1,9 @@
 const baseUrl =
+<<<<<<< HEAD
     "https://41b6-2402-800-6370-54b0-1d5d-a03b-baec-503d.ngrok-free.app/";
+=======
+    "https://7f60-2402-800-6370-54b0-c08d-fb74-d85c-3eef.ngrok-free.app/";
+>>>>>>> locfuho
 
 class UsersApi {
   static const login = "/Users/Login";
@@ -19,4 +23,14 @@ class StocksApi {
       "/api/Stocks/QuadraticForSelectStock?mathWithDailyOrMonth={mathWithDailyOrMonth}";
   static const getStockSuggestList =
       "/api/Stocks/GetListStockName?quantity={quantity}";
+}
+
+class ForumPostsApi {
+  static const viewForumPosts = "/api/ForumPosts";
+  static const getComments = "/api/Comments/post/{id}";
+  static const sendComment = "/api/Comments";
+  static const getMyReacts = "/api/Reacts/getMyId";
+  static const reactLike = "/api/Reacts/Like";
+  static const reactDislike = "/api/Reacts/Dislike";
+  static const unReact = "/api/Reacts/{id}?postId={postId}";
 }
