@@ -14,8 +14,11 @@ class ForumPostResponse {
   DateTime? postDate;
   bool? accept;
   bool? baned;
+  DateTime? activationDate;
   int? likeCount;
   int? dislikeCount;
+  int? commentCount;
+  String? activationDateAgo;
   int react;
 
   ForumPostResponse({
@@ -27,8 +30,11 @@ class ForumPostResponse {
     this.postDate,
     this.accept,
     this.baned,
+    this.activationDate,
     this.likeCount,
     this.dislikeCount,
+    this.commentCount,
+    this.activationDateAgo,
     this.react = 0,
   });
 

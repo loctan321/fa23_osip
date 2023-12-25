@@ -7,9 +7,13 @@ part 'forum_post_state.g.dart';
 class ForumPostState {
   final bool isLoading;
   final List<ForumPostResponse>? dataList;
+  final int userId;
+  final bool isCreatePost;
 
   const ForumPostState({
     this.isLoading = false,
     this.dataList,
+    this.userId = 0,
+    this.isCreatePost = false,
   });
 }
