@@ -57,7 +57,9 @@ abstract class BaseService {
   }
 
   dynamic _handleResponse(dio.Response response) {
-    if (response.statusCode != 200 && response.statusCode != 201) {
+    if (response.statusCode != 200 &&
+        response.statusCode != 201 &&
+        response.statusCode != 204) {
       throw ApiException.fromJson(response.data);
     }
 

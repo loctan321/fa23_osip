@@ -1,5 +1,5 @@
 const baseUrl =
-    "https://7f60-2402-800-6370-54b0-c08d-fb74-d85c-3eef.ngrok-free.app/";
+    "https://08d7-2405-4802-9036-2a00-84ef-ee59-516d-4ab1.ngrok-free.app/";
 
 class UsersApi {
   static const login = "/Users/Login";
@@ -22,7 +22,8 @@ class StocksApi {
 }
 
 class ForumPostsApi {
-  static const viewForumPosts = "/api/ForumPosts";
+  static const forumPosts = "/api/ForumPosts";
+  static const viewForumPosts = "/api/ForumPosts/GetForumPostsAccept";
   static const getComments = "/api/Comments/post/{id}";
   static const sendComment = "/api/Comments";
   static const getMyReacts = "/api/Reacts/getMyId";
