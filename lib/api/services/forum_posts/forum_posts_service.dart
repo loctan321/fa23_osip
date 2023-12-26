@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:optimizing_stock_investment_portfolio/api/exception/api_endpoints.dart';
 import 'package:optimizing_stock_investment_portfolio/base/base_service.dart';
 
+import 'models/post_request.dart';
 import 'models/react_request.dart';
 import 'models/send_comment_request.dart';
 
@@ -44,6 +45,16 @@ class ForumPostsService extends BaseService {
       ForumPostsApi.unReact
           .replaceAll(RegExp('{id}'), id)
           .replaceAll(RegExp('{postId}'), postId),
+    );
+    return response;
+  }
+
+  Future<Response> createPost({
+    required PostRequest request,
+  }) async {
+    final response = await post(
+      ForumPostsApi.forumPosts,
+      data: request.toJson(),
     );
     return response;
   }

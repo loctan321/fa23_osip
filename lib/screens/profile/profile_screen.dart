@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:optimizing_stock_investment_portfolio/api/services/rest_client.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/date_time.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';

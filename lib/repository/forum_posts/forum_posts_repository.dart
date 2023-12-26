@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:optimizing_stock_investment_portfolio/api/services/forum_posts/forum_posts_service.dart';
+import 'package:optimizing_stock_investment_portfolio/api/services/forum_posts/models/post_request.dart';
 import 'package:optimizing_stock_investment_portfolio/api/services/forum_posts/models/react_request.dart';
 import 'package:optimizing_stock_investment_portfolio/api/services/forum_posts/models/send_comment_request.dart';
 
@@ -86,9 +87,19 @@ class ForumPostsRepository {
     }
   }
 
-  Future<void> unReact({required int id, required int postId}) async {
+  Future<void> unReact({required String id, required int postId}) async {
     try {
-      await _service.unReact(id: id.toString(), postId: postId.toString());
+      await _service.unReact(id: id, postId: postId.toString());
+    } catch (error, statckTrace) {
+      if (kDebugMode) {
+        print("$error + $statckTrace");
+      }
+    }
+  }
+
+  Future<void> createPost({required PostRequest request}) async {
+    try {
+      await _service.createPost(request: request);
     } catch (error, statckTrace) {
       if (kDebugMode) {
         print("$error + $statckTrace");
