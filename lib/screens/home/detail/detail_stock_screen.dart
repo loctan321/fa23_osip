@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
+import 'package:optimizing_stock_investment_portfolio/helper/spaces.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/input/drop_down/drop_down_option_chart_select.dart';
 import 'package:optimizing_stock_investment_portfolio/widgets/loading.dart';
 
@@ -60,48 +61,58 @@ class _DetailStockScreenState extends State<DetailStockScreen> {
                     horizontal: 16.w,
                     vertical: 12.h,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      DropDownOptionChartSelect(
-                        initValue: optionChange,
-                        onChanged: (value) {
-                          if (value != null) {
-                            setState(() {
-                              optionChange = value;
-                            });
-                            bloc.getData(
-                              ticker: widget.params.ticker,
-                              date: widget.params.date,
-                              option: value,
-                            );
-                          }
-                        },
-                        isExpanded: false,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          DropDownOptionChartSelect(
+                            initValue: optionChange,
+                            onChanged: (value) {
+                              if (value != null) {
+                                setState(() {
+                                  optionChange = value;
+                                });
+                                bloc.getData(
+                                  ticker: widget.params.ticker,
+                                  date: widget.params.date,
+                                  option: value,
+                                );
+                              }
+                            },
+                            isExpanded: false,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                changeChart = !changeChart;
+                              });
+                            },
+                            child: Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.rectangle,
+                                color: context.appColor.colorBlue,
+                                borderRadius: BorderRadius.circular(4.r),
+                              ),
+                              child: Icon(
+                                changeChart
+                                    ? Icons.area_chart_outlined
+                                    : Icons.show_chart_outlined,
+                                size: 30,
+                                color: context.appColor.colorWhite,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            changeChart = !changeChart;
-                          });
-                        },
-                        child: Container(
-                          height: 40,
-                          width: 40,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            color: context.appColor.colorBlue,
-                            borderRadius: BorderRadius.circular(4.r),
-                          ),
-                          child: Icon(
-                            changeChart
-                                ? Icons.area_chart_outlined
-                                : Icons.show_chart_outlined,
-                            size: 30,
-                            color: context.appColor.colorWhite,
-                          ),
-                        ),
-                      )
+                      spaceH12,
+                      Text(
+                          'Profit average: ${state.profitAverage.toStringAsFixed(2)}'),
+                      Text(
+                          'Standard deviation: ${state.standardDeviation.toStringAsFixed(2)}'),
                     ],
                   ),
                 ),

@@ -3,7 +3,7 @@ import 'package:optimizing_stock_investment_portfolio/api/services/stocks/models
 import 'package:optimizing_stock_investment_portfolio/api/services/stocks/stocks_service.dart';
 
 import 'models/quadratic_stock_select/quadratic_stock_select_response.dart';
-import 'models/stock_chart/stock_chart_response.dart';
+import 'models/stock_chart/base_stock_chart_response.dart';
 import 'models/stock_suggest/stock_suggest_response.dart';
 import 'models/view_post_stock/filter_view_post_stock_response.dart';
 
@@ -37,7 +37,7 @@ class StocksRepository {
     }
   }
 
-  Future<List<StockChartResponse>> getStockChart({
+  Future<BaseStockChartResponse> getStockChart({
     required String ticker,
     required String date,
     required int option,
@@ -49,16 +49,16 @@ class StocksRepository {
         option: option.toString(),
       );
       if (response.statusCode == 200) {
-        final result = StockChartResponse.fromJsonArray(response.data);
+        final result = BaseStockChartResponse.fromJson(response.data);
         return result;
       } else {
-        return [];
+        return BaseStockChartResponse();
       }
     } catch (error, statckTrace) {
       if (kDebugMode) {
         print("$error + $statckTrace");
       }
-      return [];
+      return BaseStockChartResponse();
     }
   }
 
