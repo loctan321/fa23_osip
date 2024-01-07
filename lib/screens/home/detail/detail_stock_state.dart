@@ -7,9 +7,13 @@ part 'detail_stock_state.g.dart';
 class DetailStockState {
   final bool isLoading;
   final List<StockChartResponse> dataList;
+  final double profitAverage;
+  final double standardDeviation;
 
   const DetailStockState({
     this.isLoading = false,
     this.dataList = const [],
+    this.profitAverage = 0.0,
+    this.standardDeviation = 0.0,
   });
 }

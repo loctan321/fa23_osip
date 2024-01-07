@@ -17,7 +17,9 @@ class DetailStockBloc extends Cubit<DetailStockState> {
         option: option ?? 1,
       );
       emit(state.copyWith(
-        dataList: result,
+        profitAverage: result.profitAverage,
+        standardDeviation: result.standardDeviation,
+        dataList: result.listChart,
         isLoading: false,
       ));
     } catch (error, statckTrace) {
