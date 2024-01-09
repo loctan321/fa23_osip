@@ -299,9 +299,11 @@ class _HomeScreenState extends State<HomeScreen> {
               _itemButton(
                 context,
                 title: 'Add favorite',
-                backgroundColor: context.appColor.colorBlue,
+                backgroundColor: data.isFavorite
+                    ? context.appColor.colorBlue
+                    : context.appColor.colorGrey,
                 onTap: () {
-                  bloc.onAddWhishList(data);
+                  bloc.onAddWhishList(data, !data.isFavorite);
                 },
               ),
               InkWell(

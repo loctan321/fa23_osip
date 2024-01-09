@@ -15,7 +15,23 @@ class HomeBloc extends Cubit<HomeState> {
 
   getData() async {
     emit(state.copyWith(isLoading: true));
-    onFetch(page: 1);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    // Fetch and decode data
+    final String? whishListString = prefs.getString('whishList_key');
+
+    var favoriteList = <ViewPostStockResponse>[];
+
+    if (whishListString != null) {
+      favoriteList = ViewPostStockResponse.decode(whishListString);
+    } else {
+      favoriteList = [];
+    }
+
+    emit(state.copyWith(
+      favoriteList: favoriteList,
+    ));
+    await onFetch(page: 1);
     emit(state.copyWith(isLoading: false));
   }
 
@@ -45,9 +61,19 @@ class HomeBloc extends Cubit<HomeState> {
       var dataTemp = List<ViewPostStockResponse>.from(data.data ?? []);
       final addList = List<String>.from(state.addList);
 
+      //
+      var favoriteList = List<ViewPostStockResponse>.from(state.favoriteList);
+      final favoriteIdList = favoriteList.map((e) => e.ticker ?? '').toList();
+
       dataTemp = dataTemp
           .map(
               (e) => addList.contains(e.ticker) ? e.copyWith(isCheck: true) : e)
+          .toList();
+
+      dataTemp = dataTemp
+          .map((e) => favoriteIdList.contains(e.ticker)
+              ? e.copyWith(isFavorite: true)
+              : e)
           .toList();
 
       final dataList = List<ViewPostStockResponse>.from(state.dataList)
@@ -130,7 +156,8 @@ class HomeBloc extends Cubit<HomeState> {
     onFetch(page: 1);
   }
 
-  onAddWhishList(ViewPostStockResponse data) async {
+  onAddWhishList(ViewPostStockResponse data, bool isFavorite) async {
+    emit(state.copyWith(dataUpdate: null));
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Fetch and decode data
@@ -144,13 +171,21 @@ class HomeBloc extends Cubit<HomeState> {
       dataList = [];
     }
 
-    if (dataList.isEmpty) {
-      dataList.add(data);
-    } else {
-      final temp =
-          dataList.firstWhereOrNull((element) => element.ticker == data.ticker);
-      if (temp == null) {
+    if (isFavorite) {
+      if (dataList.isEmpty) {
         dataList.add(data);
+      } else {
+        final temp = dataList
+            .firstWhereOrNull((element) => element.ticker == data.ticker);
+        if (temp == null) {
+          dataList.add(data);
+        }
+      }
+      emit(state.copyWith(dataUpdate: data.copyWith(isFavorite: true)));
+    } else {
+      if (dataList.isNotEmpty) {
+        dataList.removeWhere((element) => element.ticker == data.ticker);
+        emit(state.copyWith(dataUpdate: data.copyWith(isFavorite: false)));
       }
     }
 
@@ -158,5 +193,6 @@ class HomeBloc extends Cubit<HomeState> {
     final String encodedData = ViewPostStockResponse.encode(dataList);
 
     await prefs.setString('whishList_key', encodedData);
+    emit(state.copyWith(dataUpdate: null));
   }
 }

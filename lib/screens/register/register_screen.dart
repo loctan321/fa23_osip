@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:optimizing_stock_investment_portfolio/helper/context.dart';
 import 'package:optimizing_stock_investment_portfolio/screens/login/login_screen.dart';
 
 import 'package:optimizing_stock_investment_portfolio/theme/theme.dart';
@@ -85,7 +86,7 @@ class _SignUpScreenState extends State<RegisterScreen> {
                     child: Form(
                       key: _formSignupKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           // get started text
                           Text(
@@ -214,10 +215,21 @@ class _SignUpScreenState extends State<RegisterScreen> {
                             obscureText: true,
                             obscuringCharacter: '*',
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter Password';
+                              if (value == null || value.length < 8) {
+                                return 'Password must be at least 8 characters long';
+                              } else {
+                                bool hasUppercase =
+                                    value.contains(RegExp(r'[A-Z]'));
+                                bool hasDigits = value.contains(RegExp(r'\d'));
+
+                                if (!hasUppercase) {
+                                  return 'Password must contain at least one uppercase letter';
+                                } else if (!hasDigits) {
+                                  return 'Password must contain at least one digit';
+                                } else {
+                                  return null;
+                                }
                               }
-                              return null;
                             },
                             decoration: InputDecoration(
                               label: const Text('Password'),
@@ -238,6 +250,29 @@ class _SignUpScreenState extends State<RegisterScreen> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
+                          ),
+                          const SizedBox(
+                            height: 15.0,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '● Password length is at least 8 chars',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                    color: context.appColor.colorBlack),
+                              ),
+                              Text(
+                                '● Contains an uppercase letter',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                    color: context.appColor.colorBlack),
+                              ),
+                              Text(
+                                '● Contains a digit',
+                                style: context.textTheme.bodySmall?.copyWith(
+                                    color: context.appColor.colorBlack),
+                              ),
+                            ],
                           ),
                           const SizedBox(
                             height: 25.0,

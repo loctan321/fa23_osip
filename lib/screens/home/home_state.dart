@@ -10,6 +10,7 @@ class HomeState {
   final DateTime? dateSearch;
   final List<ViewPostStockResponse>? stockDataList;
   final List<ViewPostStockResponse> dataList;
+  final List<ViewPostStockResponse> favoriteList;
   final ViewPostStockResponse? dataUpdate;
   final List<String> addList;
   final int currentPage;
@@ -23,6 +24,7 @@ class HomeState {
     this.dateSearch,
     this.stockDataList,
     this.dataList = const [],
+    this.favoriteList = const [],
     this.dataUpdate,
     this.addList = const [],
     this.currentPage = 1,
