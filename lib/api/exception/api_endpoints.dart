@@ -1,5 +1,5 @@
 const baseUrl =
-    "https://164c-210-245-36-176.ngrok-free.app/";
+    "https://localhost:44322/";
 
 class UsersApi {
   static const login = "/Users/Login";
