@@ -19,6 +19,7 @@ class ViewPostStockResponse {
   double? standardDeviation;
   double? sharpeRatio;
   bool isCheck;
+  bool isFavorite;
 
   ViewPostStockResponse({
     this.ticker,
@@ -32,6 +33,7 @@ class ViewPostStockResponse {
     this.standardDeviation,
     this.sharpeRatio,
     this.isCheck = false,
+    this.isFavorite = false,
   });
 
   factory ViewPostStockResponse.fromJson(Map<String, dynamic> json) {

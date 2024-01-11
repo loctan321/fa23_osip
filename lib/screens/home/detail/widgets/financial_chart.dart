@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimizing_stock_investment_portfolio/repository/stocks/models/stock_chart/stock_chart_response.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -29,26 +30,37 @@ class _FinancialState extends State<Financial> {
 
   @override
   Widget build(BuildContext context) {
-    return SfCartesianChart(
-      trackballBehavior: _trackballBehavior,
-      series: <CandleSeries>[
-        CandleSeries<ChartSampleData, DateTime>(
-          dataSource: _chartData,
-          xValueMapper: (ChartSampleData sales, _) => sales.x,
-          lowValueMapper: (ChartSampleData sales, _) => sales.low,
-          highValueMapper: (ChartSampleData sales, _) => sales.high,
-          openValueMapper: (ChartSampleData sales, _) => sales.open,
-          closeValueMapper: (ChartSampleData sales, _) => sales.close,
-        )
-      ],
-      primaryXAxis: DateTimeAxis(
-          dateFormat: DateFormat.MMM(),
-          majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: NumericAxis(
-          minimum: -15,
-          maximum: 15,
-          interval: 1,
-          numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(
+            width: 1.sw * 1.6,
+            child: SfCartesianChart(
+              //trackballBehavior: _trackballBehavior,
+              series: <CandleSeries>[
+                CandleSeries<ChartSampleData, DateTime>(
+                  dataSource: _chartData,
+                  xValueMapper: (ChartSampleData sales, _) => sales.x,
+                  lowValueMapper: (ChartSampleData sales, _) => sales.low,
+                  highValueMapper: (ChartSampleData sales, _) => sales.high,
+                  openValueMapper: (ChartSampleData sales, _) => sales.open,
+                  closeValueMapper: (ChartSampleData sales, _) => sales.close,
+                )
+              ],
+              primaryXAxis: DateTimeAxis(
+                  dateFormat: DateFormat.MMM(),
+                  majorGridLines: const MajorGridLines(width: 0)),
+              primaryYAxis: NumericAxis(
+                  minimum: -15,
+                  maximum: 15,
+                  interval: 1,
+                  numberFormat: NumberFormat.simpleCurrency(decimalDigits: 0)),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
